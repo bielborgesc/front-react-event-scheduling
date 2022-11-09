@@ -1,4 +1,4 @@
-import { Button } from 'antd';
+import React from 'react';
 import './App.css';
 import ButtonAtom from './components/atoms/Button';
 
@@ -8,6 +8,7 @@ function App() {
       <ButtonAtom
         title="Entrar"
       ></ButtonAtom>  
+      <h1>wdawd</h1>
     </div>
   );
 }
