@@ -3,14 +3,14 @@ import React from "react";
 
 interface Button {
   title: string
+  danger?: boolean
 }
 
-const ButtonAtom = ({ title }: Button) => {
-  return (
-    <Button type='primary'>
+const ButtonAtom = ({ title, danger }: Button) => (
+    <Button danger={danger} type="primary">
       {title}
     </Button>
   )
-}
+
 
 export default ButtonAtom;
