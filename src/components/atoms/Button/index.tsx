@@ -1,10 +1,14 @@
 import { Button } from "antd";
 import React from "react";
 
-const ButtonAtom = (props: any) => {
+interface Button {
+  title: string
+}
+
+const ButtonAtom = ({ title }: Button) => {
   return (
     <Button type='primary'>
-      {props.title}
+      {title}
     </Button>
   )
 }
