@@ -1,0 +1,16 @@
+.footer {
+  margin-top: 30px;
+  color: var(--color-white);
+  background-color: var(--color-black);
+  box-shadow: 0 -2px 7px 0 rgba(0,0,0,.5);
+}
+
+.footer div{
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+}
+
+.text-center {
+  display: flex;
+  justify-content: center;
+}

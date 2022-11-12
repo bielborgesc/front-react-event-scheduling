@@ -2,11 +2,11 @@ import { Input } from 'antd';
 import React from 'react';
 
 interface Input {
-  placeholderText: string,
-  typeInput: string
+  placeholderText?: string,
+  typeInput?: string
 }
 
-const InputAtom = ({placeholderText, typeInput}: Input) => (
+const InputAtom = ({placeholderText = "", typeInput = "text"}: Input) => (
   <Input placeholder={placeholderText} type={typeInput}/>
 )
 

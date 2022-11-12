@@ -6,7 +6,6 @@ interface Tab {
   tab: string;
 }
 
-
 interface Card {
   tabList: Tab[]
   contentList: Record<string, React.ReactNode>
@@ -19,7 +18,7 @@ const CardAtom = ({tabList, contentList, title}: Card) => {
   const onTab1Change = (key: string) => {
     setActiveTabKey1(key);
   };
-
+  
   return (
     <>
       <Card

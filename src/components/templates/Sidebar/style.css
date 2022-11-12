@@ -1,0 +1,51 @@
+.logo{
+  display: flex;
+  align-items: center;
+  padding: 35px 0;
+  justify-content: center;
+}
+
+.dash{
+  background-color: var(--color-blue);
+  width: 3px;
+  height: 50px;
+  margin: 0 5px;
+}
+
+.title-logo{
+  display: flex;
+  flex-direction: column;
+  font-size: 24px;
+  line-height: 20px;
+  color: var(--color-white);
+}
+
+.sider{
+  background-color: var(--color-black);
+}
+
+.ant-menu-dark.ant-menu-dark:not(.ant-menu-horizontal) .ant-menu-item-selected {
+  background-color: var(--color-white);
+  border-radius: 20px 0 0 20px;
+  transition: all 0.9s;
+}
+
+.ant-menu-dark .ant-menu-item-selected .ant-menu-item-icon + span, .ant-menu-dark .ant-menu-item-selected .anticon + span,
+.ant-menu-dark .ant-menu-item-selected .ant-menu-item-icon, .ant-menu-dark .ant-menu-item-selected .anticon {
+  color: var(--color-blue);
+}
+
+.ant-menu.ant-menu-dark, .ant-menu-dark .ant-menu-sub, .ant-menu.ant-menu-dark .ant-menu-sub {
+  background-color: var(--color-blue);
+  border-radius: 8px 0 0 8px;
+}
+
+.menu {
+  font-size: 18px;
+}
+
+.ant-layout-sider-trigger {
+  color: var(--color-white);
+  background-color: var(--color-blue);
+  border-radius: 8px 0 0 8px;
+}
