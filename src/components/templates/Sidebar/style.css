@@ -49,3 +49,7 @@
   background-color: var(--color-blue);
   border-radius: 8px 0 0 8px;
 }
+
+.ant-menu-dark .ant-menu-item-selected > a, .ant-menu-dark .ant-menu-item-selected > span > a, .ant-menu-dark .ant-menu-item-selected > a:hover, .ant-menu-dark .ant-menu-item-selected > span > a:hover {
+  color: var(--color-blue);
+}

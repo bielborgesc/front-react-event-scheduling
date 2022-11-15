@@ -14,7 +14,11 @@
 }
 
 .container{
-  justify-content: end;
   display: flex;
   align-content: center;
+  flex-direction: row-reverse;
+}
+
+.perfil {
+  margin: 0 20px;
 }

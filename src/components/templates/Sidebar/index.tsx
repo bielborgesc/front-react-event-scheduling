@@ -8,6 +8,8 @@ import type { MenuProps } from 'antd';
 import { Layout, Menu } from 'antd';
 import React, { useState } from 'react';
 import "./style.css"
+import {Link } from "react-router-dom";
+
 
 const { Sider } = Layout;
 
@@ -28,10 +30,10 @@ function getItem(
 }
 
 const items: MenuItem[] = [
-  getItem('Dashboard', '1', <UnorderedListOutlined />),
-  getItem('Cadastrar', '2', <FormOutlined />),
-  getItem('Editar', '3', <EditOutlined />),
-  getItem('Convidar', '4', <SendOutlined />),
+  getItem(<Link to="/"><span>Dashboard</span></Link>, '1', <UnorderedListOutlined />, ),
+  getItem(<Link to="/cadastrar"><span>Cadastrar</span></Link>, '2', <FormOutlined />),
+  getItem(<Link to="/editar"><span>Editar</span></Link>, '3', <EditOutlined />),
+  getItem(<Link to="/convidar"><span>Convidar</span></Link>, '4', <SendOutlined />),
 ];
 
 interface Sidebar{
@@ -62,3 +64,4 @@ const SidebarTemplate = ({}: Sidebar) =>{
 }
 
 export default SidebarTemplate;
+{/* <Link to="/about">About</Link> */}
