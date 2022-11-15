@@ -42,7 +42,7 @@ const SidebarTemplate = ({}: Sidebar) =>{
   const [collapsed, setCollapsed] = useState(false);
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
+    <>
       <Sider collapsible collapsed={collapsed} className="sider" onCollapse={value => {
         setCollapsed(value)
         if(value) document.querySelector(".title-logo")?.setAttribute("style", "display:none")
@@ -57,7 +57,7 @@ const SidebarTemplate = ({}: Sidebar) =>{
           </div>
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} className="title-font menu"/>
       </Sider>
-    </Layout>
+    </>
   );
 }
 

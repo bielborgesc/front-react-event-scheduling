@@ -14,7 +14,7 @@ interface Header {
 const HeaderTemplate = ({ }: Header) => {
 
   return (
-    <Header className="navbar">
+    <Header className="navbar site-layout-background" style={{ padding: 0 }} >
       <nav>
         <div className="container">
           <div className="perfil">

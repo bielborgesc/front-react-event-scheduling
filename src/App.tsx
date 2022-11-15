@@ -1,11 +1,10 @@
 import React, { FC } from 'react';
 import './App.css';
-import ModalTemplate from './components/templates/Modal/index';
-
+import DasboardPage from './components/pages/Dashboard';
 
 const App: FC = () => (
   <div className="App">
-    <ModalTemplate></ModalTemplate>
+    <DasboardPage></DasboardPage>
   </div>
 )
 
