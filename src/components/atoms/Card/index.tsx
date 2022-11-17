@@ -1,5 +1,6 @@
 import { Card } from 'antd';
 import React, { useState } from 'react';
+import './style.css';
 
 interface Tab {
   key: string,
@@ -29,6 +30,7 @@ const CardAtom = ({tabList, contentList, title}: Card) => {
         onTabChange={key => {
           onTab1Change(key);
         }}
+        className="card"
       >
         {contentList[activeTabKey1]}
       </Card>

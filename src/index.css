@@ -34,3 +34,10 @@ code {
 body{
   background-color: var(--color-white);
 }
+
+.mainContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

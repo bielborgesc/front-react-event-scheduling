@@ -6,7 +6,6 @@ import SidebarTemplate from './components/templates/Sidebar';
 import HeaderTemplate from './components/templates/Header';
 import FooterTemplate from './components/templates/Footer';
 import DasboardPage from './components/pages/Dashboard';
-import EditPage from './components/pages/Edit/index';
 import RegisterPage from './components/pages/Register/index';
 import InvitePage from './components/pages/Invite';
 
@@ -18,12 +17,12 @@ const App: FC = () => (
       <SidebarTemplate></SidebarTemplate>
       <Layout>
         <HeaderTemplate></HeaderTemplate>
-        <Content>
+        <Content className='mainContainer'>
           <Routes>
             <Route index element={<DasboardPage />} path="/"/>
-            <Route index element={<RegisterPage />} path="/cadastrar"/>
-            <Route index element={<EditPage />} path="/editar"/>
-            <Route index element={<InvitePage />} path="/convidar"/>
+            <Route  element={<RegisterPage />} path="/cadastrar"/>
+            <Route  element={<RegisterPage />} path="/editar/:id"/>
+            <Route  element={<InvitePage />} path="/convidar/:id"/>
           </Routes>
         </Content>
         <FooterTemplate>Footer</FooterTemplate>
