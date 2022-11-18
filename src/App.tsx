@@ -7,7 +7,6 @@ import HeaderTemplate from './components/templates/Header';
 import FooterTemplate from './components/templates/Footer';
 import DasboardPage from './components/pages/Dashboard';
 import RegisterPage from './components/pages/Register/index';
-import InvitePage from './components/pages/Invite';
 
 const { Content } = Layout;
 
@@ -21,8 +20,6 @@ const App: FC = () => (
           <Routes>
             <Route index element={<DasboardPage />} path="/"/>
             <Route  element={<RegisterPage namePage='Página de Cadastro'/>} path="/cadastrar"/>
-            <Route  element={<RegisterPage namePage='Página de Edição'/>} path="/editar/:id"/>
-            <Route  element={<InvitePage />} path="/convidar/:id"/>
           </Routes>
         </Content>
         <FooterTemplate>Footer</FooterTemplate>

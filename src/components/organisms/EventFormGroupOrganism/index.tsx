@@ -5,16 +5,17 @@ import axios from 'axios';
 
 interface EventFormGroup{
   nameForm: string;
+  event?: any
 }
 
-const EventFormGroupOrganism = ({nameForm}: EventFormGroup) => {
+const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
   const [form, setForm] = useState({
     user: {
-      id: "86dde15c-32d5-48b9-a811-aeee57cd8555"
+      id: event? event.user.id : "86dde15c-32d5-48b9-a811-aeee57cd8555"
     },
-    description: "",
-    start: "",
-    finish: ""
+    description: event? event.description : "",
+    start: event? event.start : "",
+    finish: event? event.finish :""
   })
 
   const onFinishFailed = (errorInfo: any) => {
@@ -22,7 +23,6 @@ const EventFormGroupOrganism = ({nameForm}: EventFormGroup) => {
   };
 
   const onFinish = async (values: any) => {
-    console.log(values)
     const response = await axios.post(`http://localhost:3000/event/`,
       {
         "user": {
@@ -40,6 +40,25 @@ const EventFormGroupOrganism = ({nameForm}: EventFormGroup) => {
     );
     console.log('Success:', response.data);
   };
+
+  const onUpdateEvent = async (values: any) => {
+    const response = await axios.post(`http://localhost:3000/event/${event.id}`,
+      {
+        "user": {
+          "id": "86dde15c-32d5-48b9-a811-aeee57cd8555"
+        },
+        "description": values.description,
+        "start": values.initDate,
+        "finish": values.finalDate
+      },
+      {
+        headers: {
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4NzcyMDI3LCJleHAiOjE2Njg4MzIwMjd9.MYrmBWae70u65A-6ZOCQkH-PpsmjEdIsmlkLWlFwL0w'
+        },
+      }
+    );
+    console.log('Success:', response.data);
+  }
 
   const handleUpdateInput = (e: any) => {
     const name = e.target['name']
@@ -62,13 +81,14 @@ const EventFormGroupOrganism = ({nameForm}: EventFormGroup) => {
       name={nameForm}
       initialValues={{ remember: true }}
       onFinish={onFinish}
-      onFinishFailed={onFinishFailed}
+      onFinishFailed={event ? onUpdateEvent : onFinishFailed}
       autoComplete="on"
     >
       <Form.Item
         label="Descrição: "
         name="description"
         rules={[{ required: true, message: 'Por favor insira uma descrição!' }]}
+        initialValue={form.description}
       >
         <Input placeholder="Insira a descrição do Evento" name="description" onChange={(e) => handleUpdateInput(e)} value={form.description}/>
       </Form.Item>
@@ -77,6 +97,7 @@ const EventFormGroupOrganism = ({nameForm}: EventFormGroup) => {
         label="Data Inicial: "
         name="initDate"
         rules={[{ required: true, message: 'Por favor insira uma data' }]}
+        initialValue={form.start.split(":00.000Z")[0]}
       >
         <Input type="datetime-local" name="start" onChange={(e) => handleUpdateInput(e)} value={form.start}/>
       </Form.Item>
@@ -85,6 +106,7 @@ const EventFormGroupOrganism = ({nameForm}: EventFormGroup) => {
         label="Data Final: "
         name="finalDate"
         rules={[{ required: true, message: 'Por favor insira uma data' }]}
+        initialValue={form.finish.split(":00.000Z")[0]}
       >
         <Input type="datetime-local" name="finish" value={form.finish}/>
       </Form.Item>
