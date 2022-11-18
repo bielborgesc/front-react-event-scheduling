@@ -20,8 +20,8 @@ const App: FC = () => (
         <Content className='mainContainer'>
           <Routes>
             <Route index element={<DasboardPage />} path="/"/>
-            <Route  element={<RegisterPage />} path="/cadastrar"/>
-            <Route  element={<RegisterPage />} path="/editar/:id"/>
+            <Route  element={<RegisterPage namePage='Página de Cadastro'/>} path="/cadastrar"/>
+            <Route  element={<RegisterPage namePage='Página de Edição'/>} path="/editar/:id"/>
             <Route  element={<InvitePage />} path="/convidar/:id"/>
           </Routes>
         </Content>

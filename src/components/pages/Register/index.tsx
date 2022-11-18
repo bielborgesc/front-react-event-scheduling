@@ -4,14 +4,14 @@ import EventFormGroupOrganism from '../../organisms/EventFormGroupOrganism/index
 
 
 interface Register {
-
+  namePage: string;
 }
 
-const RegisterPage = ({}: Register) => {
+const RegisterPage = ({namePage}: Register) => {
 
   return (
     <>
-      <h1>Pagina de Registro</h1>
+      <h2 className="title-font">{namePage}</h2>
       <Card style={{ width: '50%' }}>
         <EventFormGroupOrganism nameForm='register'></EventFormGroupOrganism>
       </Card>

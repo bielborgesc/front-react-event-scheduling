@@ -31,7 +31,7 @@ const InvitePage = ({}: Invite) => {
       <h1>Convidar</h1>
       <Card style={{ width: '50%'}}>
         <div className='inputSearch'>
-          <InputAtom placeholderText='Insira um email válido' typeInput='email'></InputAtom>
+          <InputAtom name="search" placeholderText='Insira um email válido' typeInput='email'></InputAtom>
           <ButtonAtom icon={<SearchOutlined />} size="large"></ButtonAtom>
         </div>
       </Card>
