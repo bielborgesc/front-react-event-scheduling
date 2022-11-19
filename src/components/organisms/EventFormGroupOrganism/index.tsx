@@ -34,7 +34,7 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
       },
       {
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4NzcyMDI3LCJleHAiOjE2Njg4MzIwMjd9.MYrmBWae70u65A-6ZOCQkH-PpsmjEdIsmlkLWlFwL0w'
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
         },
       }
     );
@@ -53,7 +53,7 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
       },
       {
         headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4NzcyMDI3LCJleHAiOjE2Njg4MzIwMjd9.MYrmBWae70u65A-6ZOCQkH-PpsmjEdIsmlkLWlFwL0w'
+          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
         },
       }
     );
