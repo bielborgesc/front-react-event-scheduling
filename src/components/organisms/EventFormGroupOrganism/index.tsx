@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { Button, Form, Input } from 'antd';
 import axios from 'axios';
-
+import { idUser, postEvent } from '../../../service/index';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface EventFormGroup{
   nameForm: string;
@@ -9,55 +10,51 @@ interface EventFormGroup{
 }
 
 const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
+  const [formControl] = Form.useForm();
   const [form, setForm] = useState({
     user: {
-      id: event? event.user.id : "86dde15c-32d5-48b9-a811-aeee57cd8555"
+      id: event ? event.user.id : idUser
     },
-    description: event? event.description : "",
-    start: event? event.start : "",
-    finish: event? event.finish :""
+    description: event ? event.description : "",
+    start: event ? event.start : "",
+    finish: event ? event.finish : ""
   })
 
   const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+    toast.error('Houve um erro, por favor tente novamente!');
+    console.error(errorInfo);
   };
 
   const onFinish = async (values: any) => {
-    const response = await axios.post(`http://localhost:3000/event/`,
-      {
-        "user": {
-          "id": "86dde15c-32d5-48b9-a811-aeee57cd8555"
-        },
-        "description": values.description,
-        "start": values.initDate,
-        "finish": values.finalDate
-      },
-      {
-        headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-        },
-      }
-    );
-    console.log('Success:', response.data);
+    postEvent(values)
+      .then(() => {
+        toast.success("Evento cadastrado com sucesso!")
+        formControl.resetFields()
+      })
+      .catch( (error:any) => toast.error(error.response.data.message))
   };
 
   const onUpdateEvent = async (values: any) => {
-    const response = await axios.post(`http://localhost:3000/event/${event.id}`,
-      {
-        "user": {
-          "id": "86dde15c-32d5-48b9-a811-aeee57cd8555"
+    try {
+      await axios.put(`http://localhost:3000/event/${event.id}`,
+        {
+          "user": {
+            "id": idUser
+          },
+          "description": values.description,
+          "start": values.initDate,
+          "finish": values.finalDate
         },
-        "description": values.description,
-        "start": values.initDate,
-        "finish": values.finalDate
-      },
-      {
-        headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-        },
-      }
-    );
-    console.log('Success:', response.data);
+        {
+          headers: {
+            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
+          },
+        }
+      );
+      toast.success("Evento cadastrado com sucesso!")
+    } catch (error: any) {
+      toast.error(error.response.data.message)
+    }
   }
 
   const handleUpdateInput = (e: any) => {
@@ -77,12 +74,14 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
   }
 
   return (<>
+    <Toaster position="top-right"  reverseOrder={false}/>
     <Form
       name={nameForm}
       initialValues={{ remember: true }}
-      onFinish={onFinish}
-      onFinishFailed={event ? onUpdateEvent : onFinishFailed}
+      onFinish={event ? onUpdateEvent : onFinish}
+      onFinishFailed={onFinishFailed}
       autoComplete="on"
+      form={formControl}
     >
       <Form.Item
         label="Descrição: "
@@ -116,7 +115,6 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
           Enviar
         </Button>
       </Form.Item>
-
     </Form>
   </>)
 }
