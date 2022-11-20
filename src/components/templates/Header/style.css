@@ -1,0 +1,30 @@
+.navbar{
+  background-color: var(--color-black);
+  box-shadow: 0 2px 7px 0 rgba(0,0,0,.5);
+}
+
+.perfil button{
+  background-color: var(--color-blue);
+  color: var(--color-white);
+}
+
+.perfil button:hover{
+  background-color: var(--color-white);
+  color: var(--color-blue);
+}
+
+.container{
+  display: flex;
+  align-content: center;
+  flex-direction: row-reverse;
+}
+
+.perfil {
+  margin: 0 20px;
+}
+
+.card{
+  display: flex;
+  flex-direction: column;
+}
+
