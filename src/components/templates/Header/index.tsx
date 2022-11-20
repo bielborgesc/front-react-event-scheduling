@@ -7,8 +7,10 @@ import {
 } from '@ant-design/icons';
 import ButtonAtom from '../../atoms/Button/index';
 import { Button, Card, List, Modal } from 'antd';
-import axios from 'axios';
 import { useEffect } from 'react';
+import {getInvitesService} from '../../../service'
+import toast from 'react-hot-toast';
+import { setResponseInviteService } from '../../../service/index';
 
 interface Header {
 
@@ -31,36 +33,22 @@ const HeaderTemplate = ({ }: Header) => {
   };
 
   const getInvites = async () => {
-		try {
-			const res = await axios.get(`http://localhost:3000/invitation/user/86dde15c-32d5-48b9-a811-aeee57cd8555/PENDING`, {
-				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-				},
-				params: {},
-			});
-      console.log(res.data)
-			setInvites(res.data);
-		} catch (err) {
-			console.log(err);
-		}
+    getInvitesService().then(e => setInvites(e.data)).catch((error:any) => toast.error(error.response.data.message))
 	};
 
   const setResponseInvite = async (responseInvite: "ACCEPT" | "REFUSED", idInvite: number) => {
-    try {
-      const response = await axios.put(`http://localhost:3000/invitation/${idInvite}`,
-      {
-        "status": responseInvite
-      },
-      {
-        headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-        },
-      }
-    );
-    console.log('Success:', response.data);
-    } catch (error) {
-      console.log(error);
-    }
+    setResponseInviteService(responseInvite, idInvite)
+      .then(() => {
+        toast.success("Convite aceito")
+        setTimeout(() => window.location.reload(), 1000);
+      })
+      .catch((error: any) => toast.error(error.response.data.message))
+  }
+
+  const formatDateTime = (dateTime: any) => {
+    const time = dateTime.split("T")[1].split(":00.000Z")[0]
+    const date = dateTime.split("T")[0].split("-").reverse().join("/")
+    return `Dia: ${date}  Ás: ${time}`;
   }
 
   useEffect(() => {
@@ -73,16 +61,16 @@ const HeaderTemplate = ({ }: Header) => {
         <div className="container">
           <div className="perfil">
             <Button onClick={showModal} icon={<BellOutlined />}></Button>
-              <Modal title="Lista de Convites" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText="" cancelText="Fechar" closable={false}>
+              <Modal title="Lista de Convites" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} okText=""  cancelText="Fechar">
               <List
                 bordered
                 dataSource={invites}
                 renderItem={(item: any) => (
-                  <List.Item>
-                    <Card type="inner" title={item.event.description} extra={<><Button onClick={() => setResponseInvite("ACCEPT", item.id)}>Aceitar</Button><Button onClick={() => setResponseInvite("REFUSED", item.event.id)}>Recusar</Button></>}>
-                      <p>Quem convidou: {item.user.email}</p>
-                      <p>Data de inicio: {item.event.start}</p>
-                      <p>Data de término: {item.event.finish}</p>
+                  <List.Item className='card'>
+                    <Card style={{width:"100%"}} type="inner" title={item.event.description} extra={<><Button onClick={() => setResponseInvite("ACCEPT", item.id)}>Aceitar</Button><Button onClick={() => setResponseInvite("REFUSED", item.event.id)}>Recusar</Button></>}>
+                      <p>Quem convidou: {item.event.user.email}</p>
+                      <p>Data de inicio: {formatDateTime(item.event.start)}</p>
+                      <p>Data de término: {formatDateTime(item.event.finish)}</p>
                   </Card>
                   </List.Item>
                 )}

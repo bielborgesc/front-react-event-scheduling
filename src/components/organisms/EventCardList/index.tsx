@@ -1,13 +1,16 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Input, List } from "antd";
-import axios from "axios";
 import React, { useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { getUserByEmailService } from "../../../service";
 import CardAtom from "../../atoms/Card";
 import EventFormGroupOrganism from "../EventFormGroupOrganism";
 import './style.css';
+import { sendInviteService, removeEventService } from '../../../service/index';
 
 interface EventCardList {
   data: any;
+  acceptsInvites: boolean;
 }
 
 const tabList = [
@@ -29,119 +32,105 @@ const tabList = [
   },
 ]
 
-const EventCardListOrganism = ({data}: EventCardList) => {
+const acceptInvitesTab = [
+  {
+    key: "tab1",
+    tab: "Evento"
+  },
+  {
+    key: "tab2",
+    tab: "Participante"
+  },
+]
+
+const EventCardListOrganism = ({data, acceptsInvites}: EventCardList) => {
   const [inputSearch, setInputSearch] = useState("")
 
   const handleUpdateInputSearch = (e: any) => setInputSearch(e.target.value)
 
   const searchEmail = async (eventId: any) =>{
-    let id;
-    try {
-			const res = await axios.get(`http://localhost:3000/user?email=${inputSearch}`, {
-				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-				},
-				params: {},
-			});
-			id =  res.data.id;
-		} catch (err) {
-			console.log(err);
-		}
-    sendInvite(id, eventId)
+    getUserByEmailService(inputSearch)
+      .then(e => {
+        let id = e.data.id
+        sendInviteService(id, eventId)
+        setInputSearch("")
+        toast.success("Convite enviado com sucesso")
+        setTimeout(() => window.location.reload(), 1000)
+      })
+      .catch(() => toast.error("Usuário não encontrado!"))
   }
 
-  const sendInvite = async (idUser: string, idEvent: number) => {
-    try {
-      const response = await axios.post(`http://localhost:3000/invitation`,
-      {
-        "user": {
-          "id": `${idUser}`
-        },
-        "event": {
-          "id": idEvent
-        },
-        "status": "PENDING"
-      },
-      {
-        headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-        },
-      }
-    );
-    console.log('Success:', response.data);
-    } catch (error) {
-      console.log(error);
+
+  const removeEvent = async (idEvent: any, invites: any[]) => {
+    if(invites.length > 0) toast.error("Não é possivel excluir eventos com convidados")
+    else{
+      removeEventService(idEvent)
+        .then(() => {
+          toast.success("Evento excluido com sucesso")
+          setTimeout(() => window.location.reload(), 1000)
+        })
+        .catch((error) => toast.error(error.response.data.message))
     }
   }
 
-  const removeEvent = async (idEvent: any) => {
-    try {
-      const response = await axios.delete(`http://localhost:3000/event/${idEvent}`,
-      {
-        headers: {
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-        },
-      }
-    );
-    console.log('Success:', response.data);
-    } catch (error) {
-      console.log(error);
-    }
+  const formatDateTime = (dateTime: any) => {
+    const time = dateTime.split("T")[1].split(":00.000Z")[0]
+    const date = dateTime.split("T")[0].split("-").reverse().join("/")
+    return `Dia: ${date}  Ás: ${time}`;
   }
-
+  
   return(
-    <List
-    grid={{ gutter: 10, column: 1 }}
-    dataSource={data}
-    renderItem={(item: any) => (
-      <List.Item>
-        <CardAtom title={item.description} tabList={tabList} contentList={
-          {
-            tab1: (
+    <>
+      <Toaster position="top-right"  reverseOrder={false}/>
+      <List
+      dataSource={data}
+      renderItem={(item: any) => (
+        <List.Item>
+          <CardAtom title={item.description} tabList={acceptsInvites? acceptInvitesTab :tabList} contentList={
+            {
+              tab1: (
+                  <>
+                    <p>Começa em: {formatDateTime(item.start)}</p>
+                    <p>Termina em: {formatDateTime(item.finish)}</p>
+                  </>
+                ),
+              tab2: (
                 <>
-                  <p>{item.start}</p>
-                  <p>{item.finish}</p>
+                  <div className='inputSearch'>
+                    <Input name="search" placeholder='Insira um email válido' type='email' onChange={(e) => handleUpdateInputSearch(e)} value={inputSearch}></Input>
+                    <Button icon={<PlusCircleOutlined />} size="large" onClick={() => searchEmail(item.id)}></Button>
+                  </div>
+                  <hr />
+                  <p>{item.user.email}</p>
+                  <List
+                    dataSource={item.invite}
+                    renderItem={(invite: any) => (
+                      <List.Item>
+                        {(invite.user.email)}
+                      </List.Item>
+                    )}
+                  />
                 </>
               ),
-            tab2: (
-              <>
-                <div className='inputSearch'>
-                  <Input name="search" placeholder='Insira um email válido' type='email' onChange={(e) => handleUpdateInputSearch(e)}></Input>
-                  <Button icon={<PlusCircleOutlined />} size="large" onClick={() => searchEmail(item.id)}></Button>
+              tab3: (
+                <>
+                  <EventFormGroupOrganism nameForm='edit' event={item}></EventFormGroupOrganism>
+                </>
+              ),
+              tab4: (
+                <div style={{display: "flex"}}>
+                  <h1>Você Realmente deseja excluir esse evento?</h1>
+                  <Button onClick={() => removeEvent(item.id, item.invite)} style={{marginLeft: "10px"}} type="primary">
+                    Sim
+                  </Button>
                 </div>
-                <hr />
-                <p>{item.user.email}</p>
-                <List
-                  dataSource={item.invite}
-                  renderItem={(invite: any) => (
-                    <List.Item>
-                      {(invite.user.email)}
-                    </List.Item>
-                  )}
-                />
-              </>
-            ),
-            tab3: (
-              <>
-                <EventFormGroupOrganism nameForm='edit' event={item}></EventFormGroupOrganism>
-              </>
-            ),
-            tab4: (
-              <>
-                <h1>Você Realmente deseja excluir esse evento?</h1>
-                <Button onClick={() => removeEvent(item.id)}>
-                  Sim
-                </Button>
-                <Button danger={true}>
-                  Não
-                </Button>
-              </>
-            )
-          }
-        }></CardAtom>
-      </List.Item>
-    )}
-  />
+              )
+            }
+          }></CardAtom>
+        </List.Item>
+      )}
+    />
+    </>
   )
 
 }

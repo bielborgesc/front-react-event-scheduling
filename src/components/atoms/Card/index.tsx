@@ -23,7 +23,7 @@ const CardAtom = ({tabList, contentList, title}: Card) => {
   return (
     <>
       <Card
-        style={{ width: '100%' }}
+        style={{ width: '600px' }}
         title={title}
         tabList={tabList}
         activeTabKey={activeTabKey1}

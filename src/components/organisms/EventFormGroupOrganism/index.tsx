@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, Input } from 'antd';
-import axios from 'axios';
-import { idUser, postEvent } from '../../../service/index';
+import { idUser, onUpdateEventService, postEventService } from '../../../service/index';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface EventFormGroup{
@@ -11,6 +10,7 @@ interface EventFormGroup{
 
 const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
   const [formControl] = Form.useForm();
+  
   const [form, setForm] = useState({
     user: {
       id: event ? event.user.id : idUser
@@ -26,7 +26,7 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
   };
 
   const onFinish = async (values: any) => {
-    postEvent(values)
+    postEventService(values)
       .then(() => {
         toast.success("Evento cadastrado com sucesso!")
         formControl.resetFields()
@@ -35,26 +35,9 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
   };
 
   const onUpdateEvent = async (values: any) => {
-    try {
-      await axios.put(`http://localhost:3000/event/${event.id}`,
-        {
-          "user": {
-            "id": idUser
-          },
-          "description": values.description,
-          "start": values.initDate,
-          "finish": values.finalDate
-        },
-        {
-          headers: {
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-          },
-        }
-      );
-      toast.success("Evento cadastrado com sucesso!")
-    } catch (error: any) {
-      toast.error(error.response.data.message)
-    }
+    onUpdateEventService(values, event.id)
+      .then(() => toast.success("Evento atualizado com sucesso!"))
+      .catch((error: any) => toast.error(error.response.data.message))
   }
 
   const handleUpdateInput = (e: any) => {

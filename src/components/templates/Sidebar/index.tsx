@@ -41,7 +41,16 @@ const SidebarTemplate = ({}: Sidebar) =>{
 
   return (
     <>
-      <Sider collapsible collapsed={collapsed} className="sider" onCollapse={value => {
+      <Sider 
+      style={{
+        overflow: 'auto',
+        height: '100vh',
+        position: 'fixed',
+        left: 0,
+        top: 0,
+        bottom: 0,
+      }}
+      collapsible collapsed={collapsed} className="sider" onCollapse={value => {
         setCollapsed(value)
         if(value) document.querySelector(".title-logo")?.setAttribute("style", "display:none")
         else document.querySelector(".title-logo")?.setAttribute("style", "display:blcok")

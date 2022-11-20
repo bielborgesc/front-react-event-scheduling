@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import "./style.css";
 import EventCardListOrganism from '../../organisms/EventCardList/index';
-import axios from 'axios';
+import { getAcceptsEventsService, getEventsService, getMembersService } from '../../../service/index';
+import toast, { Toaster } from "react-hot-toast";
+import { Spin } from "antd";
 
 interface Dasboard {
 
@@ -11,66 +13,39 @@ const DasboardPage = ({}: Dasboard) => {
   const [events, setEvents] = useState([]);
 	const [acceptsEvents, setAcceptsEvents] = useState([]);
 
-	const getEvents = async () => {
-		try {
-			const res = await axios.get(`http://localhost:3000/event/user/86dde15c-32d5-48b9-a811-aeee57cd8555`, {
-				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-				},
-				params: {},
-			});
-			setEvents(res.data);
-		} catch (err) {
-			console.log(err);
-		}
-	};
-
 	const getAcceptsEvents = async () => {
-		try {
-			const res = await axios.get(`http://localhost:3000/invitation/user/86dde15c-32d5-48b9-a811-aeee57cd8555/ACCEPT`, {
-				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-				},
-				params: {},
-			});
-			
-			const events: any = []
+		getAcceptsEventsService()
+			.then((e: any) => {
+				const events: any = []
+				e.data.forEach((e: any) => {events.push(e.event)})
+				events.forEach(async (e: any) => e.invite = await getMembersService(e.id).then(e => e))
+				setTimeout(() => setAcceptsEvents(events), 1000)
+			})
+			.catch((error:any) => toast.error(error.response.data.message))
 
-			res.data.forEach((e: any) => events.push(e.event))
-			setAcceptsEvents(events);
-		} catch (err) {
-			console.log(err);
-		}
 	};
 
-  const getMembers = async (id: number) => {
-		try {
-			const res = await axios.get(`http://localhost:3000/invitation/event/${id}`, {
-				headers: {
-					'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
-				},
-				params: {},
-			});
-			return  res.data;
-		} catch (err) {
-			console.log(err);
-		}
-	};
+	const getEvents = () => {
+		getEventsService()
+			.then((e:any) => {
+				e.data.forEach(async (e: any) => e.invite = await getMembersService(e.id).then(e => e))
+				setTimeout(() => setEvents(e.data), 1000)
+			})
+			.catch((error:any) => toast.error(error.response.data.message))
+	}
   
 	useEffect(() => {
-		getEvents();
+		getEvents()
 		getAcceptsEvents()
 	}, []);
 
-  events.forEach(async (e: any) => e.invite = await getMembers(e.id).then(e => e))
-	acceptsEvents.forEach(async (e: any) => e.invite = await getMembers(e.id).then(e => e))
-
   return(
     <>
+			<Toaster position="top-right"  reverseOrder={false}/>
       <h2 className="title-font">Lista de Eventos</h2>
-      <EventCardListOrganism data={events} ></EventCardListOrganism>
+      {events.length > 0 ? <EventCardListOrganism data={events} acceptsInvites={false}></EventCardListOrganism> : <Spin />}
 			<h2 className="title-font">Convites Aceitos</h2>
-			<EventCardListOrganism data={acceptsEvents} ></EventCardListOrganism>
+			{acceptsEvents.length > 0 ? <EventCardListOrganism data={acceptsEvents} acceptsInvites={true}></EventCardListOrganism> : <Spin />}
     </>
   )
 }

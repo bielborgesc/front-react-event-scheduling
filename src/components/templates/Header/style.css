@@ -22,3 +22,9 @@
 .perfil {
   margin: 0 20px;
 }
+
+.card{
+  display: flex;
+  flex-direction: column;
+}
+
