@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Permanent+Marker&family=Rampart+One&display=swap');
+
+.content--main {
+  height: 100vh;
+  overflow: hidden;
+}
+
+.bg--img {
+  width: 100%;
+  height: 100%;
+  background-image: url('../../../assets/images/mont-01.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+}
+
+.title{
+  font-family: 'Rampart One', cursive;
+  font-size: 50px;
+}
+
+.subtitle {
+  font-size: 25px;
+}
+
+.register-area {
+  width: 500px;
+  background-color: rgba(0, 0, 0, 0.76);
+  padding: 20px;
+  border-radius: 15px;
+}
+
+
+@media(max-width: 770px) {
+  .content-img {
+    display: none !important;
+  }
+}
+
+/* ========================= */
+

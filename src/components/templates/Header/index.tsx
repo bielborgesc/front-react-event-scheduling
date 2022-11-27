@@ -76,7 +76,7 @@ const HeaderTemplate = ({ }: Header) => {
                 )}
               />
               </Modal>
-            <ButtonAtom icon={<LogoutOutlined />}></ButtonAtom>
+            <ButtonAtom icon={<LogoutOutlined />} ></ButtonAtom>
           </div>
         </div>
       </nav >

@@ -97,7 +97,12 @@ const EventCardListOrganism = ({data, acceptsInvites}: EventCardList) => {
               tab2: (
                 <>
                   <div className='inputSearch'>
-                    <Input name="search" placeholder='Insira um email válido' type='email' onChange={(e) => handleUpdateInputSearch(e)} value={inputSearch}></Input>
+                    <Input name="search"
+                      placeholder='Insira um email válido'
+                      type='email'
+                      onChange={(e) => handleUpdateInputSearch(e)}
+                      value={inputSearch}
+                    ></Input>
                     <Button icon={<PlusCircleOutlined />} size="large" onClick={() => searchEmail(item.id)}></Button>
                   </div>
                   <hr />
