@@ -2,12 +2,21 @@ import { Button } from "antd";
 import React from "react";
 
 interface Button {
-  title: string
+  title: string,
+  width?: string,
+  height?: string,
+  fontSize?: string
 }
 
-const ButtonAtom = ({ title }: Button) => {
+const ButtonAtom = ({ title, width, height, fontSize }: Button) => {
   return (
-    <Button type='primary'>
+    <Button type='primary'
+      style={{
+        width: width,
+        height: height,
+        fontSize: fontSize
+      }}
+    >
       {title}
     </Button>
   )
