@@ -1,13 +1,23 @@
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
-export const idUser = "86dde15c-32d5-48b9-a811-aeee57cd8555"
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4OTQ1Njk3LCJleHAiOjE2NjkwMDU2OTd9.GFyRWBAisGJGTUbzdq0EXlgt1rhLT0L_Um8RWzG91mo'
+
+export const isConnected = () => {
+  const token = localStorage.getItem("token");
+  const tokenDecode: any = token ? jwt_decode(<string>token) : null;
+  const idUser = !!token ? tokenDecode.sub : null;
+  return {
+    "token": token,
+    "idUser": idUser,
+    "status": !!token ? true : false
+  }
+}
 
 export const postEventService = async (values: any) => {
     await axios.post(`http://localhost:3000/event`,
       {
         "user": {
-          "id": idUser
+          "id": `${isConnected().idUser}`
         },
         "description": values.description,
         "start": values.initDate,
@@ -15,25 +25,25 @@ export const postEventService = async (values: any) => {
       },
       {
         headers: {
-          'Authorization': `Bearer ${token}}`
+          'Authorization': `Bearer ${isConnected().token}}`
         },
       }
     );
 }
 
 export const getEventsService = async () => {
-  return await axios.get(`http://localhost:3000/event/user/${idUser}`, {
+  return await axios.get(`http://localhost:3000/event/user/${isConnected().idUser}`, {
     headers: {
-      'Authorization': `Bearer ${token}`
+      'Authorization': `Bearer ${isConnected().token}`
     },
     params: {},
   });
 };
 
 export const getAcceptsEventsService = async () => {
-  return await axios.get(`http://localhost:3000/invitation/user/${idUser}/ACCEPT`, {
+  return await axios.get(`http://localhost:3000/invitation/user/${isConnected().idUser}/ACCEPT`, {
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${isConnected().token}`,
     },
     params: {},
   });
@@ -42,7 +52,7 @@ export const getAcceptsEventsService = async () => {
 export const getMembersService = async (id: number) => {
     const res = await axios.get(`http://localhost:3000/invitation/event/${id}`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${isConnected().token}`
       },
       params: {},
     });
@@ -52,7 +62,7 @@ export const getMembersService = async (id: number) => {
 export const getUserByEmailService = async (inputSearch: string) => {
     return await axios.get(`http://localhost:3000/user?email=${inputSearch}`, {
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
+        'Authorization': `Bearer ${isConnected().token}`
       },
       params: {},
     });
@@ -71,7 +81,7 @@ export const sendInviteService = async (idUser: string, idEvent: number) => {
     },
     {
       headers: {
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI4NmRkZTE1Yy0zMmQ1LTQ4YjktYTgxMS1hZWVlNTdjZDg1NTUiLCJlbWFpbCI6ImJvcmdlc0BkZXYuY29tIiwiaWF0IjoxNjY4ODYwMzc2LCJleHAiOjE2Njg5MjAzNzZ9.miWgq9YQ_2z9hG0SEN164BXwhDTaEv6VsBx7CrYrRnM'
+        'Authorization': `Bearer ${isConnected().token}`
       },
     }
   );
@@ -86,7 +96,7 @@ export const onUpdateEventService = async (values: any, eventId: number) => {
       },
       {
         headers: {
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${isConnected().token}`
         },
       }
     );
@@ -97,16 +107,16 @@ export const removeEventService = async (idEvent: any) => {
     await axios.delete(`http://localhost:3000/event/${idEvent}`,
     {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${isConnected().token}`
       },
     }
   );
 }
 
 export const getInvitesService = async () => {
-    return await axios.get(`http://localhost:3000/invitation/user/${idUser}/PENDING`, {
+    return await axios.get(`http://localhost:3000/invitation/user/${isConnected().idUser}/PENDING`, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${isConnected().token}`
       },
       params: {},
     });
@@ -119,8 +129,20 @@ export const setResponseInviteService = async (responseInvite: "ACCEPT" | "REFUS
     },
     {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${isConnected().token}`
       },
     }
+  );
+}
+
+export const login = async (email: string, password: string) => {
+  return await axios.post(`http://localhost:3000/user/login`,
+  {
+    "email": email,
+    "password": password
+  },
+  {
+    headers: {}
+  }
   );
 }

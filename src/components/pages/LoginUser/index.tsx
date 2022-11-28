@@ -1,23 +1,30 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "./style.css";
 import { Input } from "antd";
-
+import { login } from "../../../service";
+import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const LoginUser = () => {
 
-  const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('borges@dev.com');
+	const [password, setPassword] = useState('@Gabriel05');
+  const navigate = useNavigate();
 
 	const handleClickButtonSingin = () => {
-    console.log("Logando...")
+      login(email, password)
+      .then((e) => {
+        setEmail('')
+        setPassword('')
+        toast.success("Você foi logado com sucesso, estamos te redirecionando ...")
+        localStorage.setItem('token', e.data.token)
+      })
+      .catch( (error:any) => toast.error(error.response.data.message))
   }
-
-	useEffect(() => {
-
-	}, []);
-
+  
   return(
     <>
+      <Toaster position="top-right"  reverseOrder={false}/>
       <div className="container-fluid">
         <div className="row content--main">
           <div className="content-img col col-xs-0 bg--img d-grid justify-content-center">
@@ -28,7 +35,6 @@ const LoginUser = () => {
                 <form className="p-4" >
                   <div className="form-group mb-4">
                     <label className="text-white">Insira seu E-mail</label>
-                    {/* <input type="email" className="form-control" onChange={setEmail(value)} placeholder="Enter email"> */}
                     <Input name="search"
                       placeholder='Insira um email válido'
                       type='email'
@@ -38,7 +44,6 @@ const LoginUser = () => {
                   </div>
                   <div className="form-group mb-4">
                     <label className="text-white">Insira sua senha</label>
-                    {/* <input type="password" className="form-control" onChange={} placeholder="Password"> */}
                     <Input name="search"
                       placeholder='Insira uma senha válida'
                       type='password'
@@ -47,8 +52,8 @@ const LoginUser = () => {
                     ></Input>
                     <small id="emailHelp" className="form-text text-muted">Nunca compartilhe sua senha com terceiros!</small>
                   </div>
-                  <button type="submit" className="btn btn-success w-100">Entrar</button>
-                  <button type="submit" className="btn btn-primary w-100 mt-2" onClick={() => handleClickButtonSingin()}>Registrar-se</button>
+                  <button type="button" className="btn btn-success w-100" onClick={() => handleClickButtonSingin()} >Entrar</button>
+                  <button type="button" className="btn btn-primary w-100 mt-2" onClick={() => navigate('cadastrar-usuario')} >Registrar-se</button>
                 </form>
               </div>
             </div>

@@ -1,21 +1,18 @@
 import React, { FC } from 'react';
-import { Routes, Route} from "react-router-dom";
 import './App.css';
 import { Layout } from 'antd';
 import SidebarTemplate from './components/templates/Sidebar';
 import HeaderTemplate from './components/templates/Header';
 import FooterTemplate from './components/templates/Footer';
-import DasboardPage from './components/pages/Dashboard';
-import RegisterPage from './components/pages/Register/index';
-// import RegisterUser from './components/pages/RegisterUser';
 import LoginUser from './components/pages/LoginUser';
+import { isConnected } from './service/index';
 
 const { Content } = Layout;
 
 const App: FC = () => {
 
-  const exibeTelaLoginEstatico = true;
-
+  const exibeTelaLoginEstatico = !isConnected().status;
+  
   return (
     <>
     {!!exibeTelaLoginEstatico &&
@@ -30,11 +27,6 @@ const App: FC = () => {
           <Layout>
             <HeaderTemplate></HeaderTemplate>
             <Content className='mainContainer'>
-              <Routes>
-                {/* <Route element={<LoginPage />} path="/login"/> */}
-                <Route index element={<DasboardPage />} path="/"/>
-                <Route  element={<RegisterPage namePage='Página de Cadastro'/>} path="/cadastrar"/>
-              </Routes>
             </Content>
             <FooterTemplate>Footer</FooterTemplate>
           </Layout>

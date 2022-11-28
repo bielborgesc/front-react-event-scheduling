@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, Input } from 'antd';
-import { idUser, onUpdateEventService, postEventService } from '../../../service/index';
+import { isConnected, onUpdateEventService, postEventService } from '../../../service/index';
 import toast, { Toaster } from 'react-hot-toast';
 
 interface EventFormGroup{
@@ -13,7 +13,7 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
   
   const [form, setForm] = useState({
     user: {
-      id: event ? event.user.id : idUser
+      id: event ? event.user.id : isConnected().idUser
     },
     description: event ? event.description : "",
     start: event ? event.start : "",
