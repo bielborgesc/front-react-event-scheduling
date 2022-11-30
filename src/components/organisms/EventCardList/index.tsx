@@ -1,12 +1,12 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Input, List } from "antd";
 import React, { useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
 import { getUserByEmailService } from "../../../service";
 import CardAtom from "../../atoms/Card";
 import EventFormGroupOrganism from "../EventFormGroupOrganism";
 import './style.css';
 import { sendInviteService, removeEventService } from '../../../service/index';
+import toast from "react-hot-toast";
 
 interface EventCardList {
   data: any;
@@ -81,7 +81,6 @@ const EventCardListOrganism = ({data, acceptsInvites}: EventCardList) => {
   
   return(
     <>
-      <Toaster position="top-right"  reverseOrder={false}/>
       <List
       dataSource={data}
       renderItem={(item: any) => (
@@ -124,7 +123,7 @@ const EventCardListOrganism = ({data, acceptsInvites}: EventCardList) => {
               ),
               tab4: (
                 <div style={{display: "flex"}}>
-                  <h1>Você Realmente deseja excluir esse evento?</h1>
+                  <h4>Você Realmente deseja excluir esse evento?</h4>
                   <Button onClick={() => removeEvent(item.id, item.invite)} style={{marginLeft: "10px"}} type="primary">
                     Sim
                   </Button>

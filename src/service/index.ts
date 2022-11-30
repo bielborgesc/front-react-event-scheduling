@@ -7,8 +7,8 @@ export const isConnected = () => {
   const tokenDecode: any = token ? jwt_decode(<string>token) : null;
   const idUser = !!token ? tokenDecode.sub : null;
   return {
-    "token": token,
-    "idUser": idUser,
+    "token": <string>token,
+    "idUser": <string>idUser,
     "status": !!token ? true : false
   }
 }
@@ -25,7 +25,7 @@ export const postEventService = async (values: any) => {
       },
       {
         headers: {
-          'Authorization': `Bearer ${isConnected().token}}`
+          'Authorization': `Bearer ${isConnected().token}`
         },
       }
     );
@@ -140,6 +140,20 @@ export const login = async (email: string, password: string) => {
   {
     "email": email,
     "password": password
+  },
+  {
+    headers: {}
+  }
+  );
+}
+
+export const createUserService = async (user: any) => {
+  return await axios.post(`http://localhost:3000/user`,
+  {
+    "name": user.email,
+    "email": user.email,
+    "password": user.password,
+    "confirmPassword": user.confirmPassword
   },
   {
     headers: {}

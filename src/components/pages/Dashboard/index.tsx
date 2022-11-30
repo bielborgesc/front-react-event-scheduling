@@ -2,8 +2,13 @@ import React, { useEffect, useState } from "react";
 import "./style.css";
 import EventCardListOrganism from '../../organisms/EventCardList/index';
 import { getAcceptsEventsService, getEventsService, getMembersService } from '../../../service/index';
-import toast, { Toaster } from "react-hot-toast";
-import { Spin } from "antd";
+import toast from "react-hot-toast";
+import { Layout, Spin } from "antd";
+import SidebarTemplate from "../../templates/Sidebar";
+import HeaderTemplate from "../../templates/Header";
+import FooterTemplate from "../../templates/Footer";
+const { Content } = Layout;
+
 
 interface Dasboard {
 
@@ -12,6 +17,7 @@ interface Dasboard {
 const DasboardPage = ({}: Dasboard) => {
   const [events, setEvents] = useState([]);
 	const [acceptsEvents, setAcceptsEvents] = useState([]);
+
 
 	const getAcceptsEvents = async () => {
 		getAcceptsEventsService()
@@ -40,13 +46,19 @@ const DasboardPage = ({}: Dasboard) => {
 	}, []);
 
   return(
-    <>
-			<Toaster position="top-right"  reverseOrder={false}/>
-      <h2 className="title-font">Lista de Eventos</h2>
-      {events.length > 0 ? <EventCardListOrganism data={events} acceptsInvites={false}></EventCardListOrganism> : <Spin />}
-			<h2 className="title-font">Convites Aceitos</h2>
-			{acceptsEvents.length > 0 ? <EventCardListOrganism data={acceptsEvents} acceptsInvites={true}></EventCardListOrganism> : <Spin />}
-    </>
+		<Layout style={{ minHeight: '100vh' }}>
+				<Layout>
+					<HeaderTemplate></HeaderTemplate>
+					<Content className='mainContainer'>
+						<h2 className="title-font">Lista de Eventos</h2>
+						{events.length > 0 ? <EventCardListOrganism data={events} acceptsInvites={false}></EventCardListOrganism> : <Spin />}
+						<h2 className="title-font">Convites Aceitos</h2>
+						{acceptsEvents.length > 0 ? <EventCardListOrganism data={acceptsEvents} acceptsInvites={true}></EventCardListOrganism> : <Spin />}
+					</Content>
+					<FooterTemplate>Footer</FooterTemplate>
+				</Layout>
+				<SidebarTemplate defaultSelectedKeys="1"></SidebarTemplate>
+		</Layout>
   )
 }
 

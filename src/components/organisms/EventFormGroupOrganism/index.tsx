@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Form, Input } from 'antd';
 import { isConnected, onUpdateEventService, postEventService } from '../../../service/index';
-import toast, { Toaster } from 'react-hot-toast';
+import toast from 'react-hot-toast';
 
 interface EventFormGroup{
   nameForm: string;
@@ -36,7 +36,10 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
 
   const onUpdateEvent = async (values: any) => {
     onUpdateEventService(values, event.id)
-      .then(() => toast.success("Evento atualizado com sucesso!"))
+      .then(() => {
+        toast.success("Evento atualizado com sucesso!")
+        setTimeout(() => window.location.reload(), 1500)
+      })
       .catch((error: any) => toast.error(error.response.data.message))
   }
 
@@ -57,7 +60,6 @@ const EventFormGroupOrganism = ({nameForm, event}: EventFormGroup) => {
   }
 
   return (<>
-    <Toaster position="top-right"  reverseOrder={false}/>
     <Form
       name={nameForm}
       initialValues={{ remember: true }}

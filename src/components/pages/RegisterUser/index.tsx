@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import "./style.css";
 import { Input } from "antd";
+import { Link } from "react-router-dom";
+import toast from "react-hot-toast";
+import { createUserService } from "../../../service";
+import { useNavigate } from 'react-router';
 
 
 const RegisterUser = () => {
@@ -9,18 +13,28 @@ const RegisterUser = () => {
   const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const navigate = useNavigate()
 
 	const handleClickRegister = () => {
-    console.log("Registrando...")
+    let success = false;
+    const user = {
+      name: name,
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword
+    }
+    createUserService(user)
+      .then(() => {
+        setName('');
+        setEmail('')
+        setPassword('')
+        setConfirmPassword('')
+        toast.success("Sua conta foi criada com sucesso, estamos te redirecionando para tela de login");
+        success = true
+      })
+      .catch( (error:any) => toast.error(error.response.data.message))
+    setTimeout(() => {if(success)  navigate('/login')}, 2000)
   }
-
-  const handleClickBackLogin = () => {
-    console.log("Voltando para login...")
-  }
-
-	useEffect(() => {
-
-	}, []);
 
   return(
     <>
@@ -58,8 +72,10 @@ const RegisterUser = () => {
                     ></Input>
                   </div>
 
-                  <button type="submit" className="btn btn-success w-100" onClick={() => handleClickRegister()}>Registrar</button>
-                  <button className="btn btn-primary mt-2 w-100" onClick={() => handleClickBackLogin()}>Voltar</button>
+                  <button type="button" className="btn btn-success w-100" onClick={() => handleClickRegister()}>Registrar</button>
+                  <Link to="/login">
+                    <button className="btn btn-primary mt-2 w-100">Voltar</button>
+                  </Link>
                 </form>
               </div>
             </div>

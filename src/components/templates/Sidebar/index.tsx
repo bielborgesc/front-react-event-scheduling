@@ -33,10 +33,10 @@ const items: MenuItem[] = [
 ];
 
 interface Sidebar{
-
+  defaultSelectedKeys: string
 }
 
-const SidebarTemplate = ({}: Sidebar) =>{
+const SidebarTemplate = ({defaultSelectedKeys}: Sidebar) =>{
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -49,6 +49,7 @@ const SidebarTemplate = ({}: Sidebar) =>{
         left: 0,
         top: 0,
         bottom: 0,
+        zIndex: 2
       }}
       collapsible collapsed={collapsed} className="sider" onCollapse={value => {
         setCollapsed(value)
@@ -62,7 +63,7 @@ const SidebarTemplate = ({}: Sidebar) =>{
                 <span>Event</span> <span>Scheduling</span>
               </div>
           </div>
-        <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline" items={items} className="title-font menu"/>
+        <Menu theme="dark" defaultSelectedKeys={[defaultSelectedKeys]} mode="inline" items={items} className="title-font menu"/>
       </Sider>
     </>
   );

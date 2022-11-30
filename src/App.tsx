@@ -1,38 +1,32 @@
 import React, { FC } from 'react';
 import './App.css';
-import { Layout } from 'antd';
-import SidebarTemplate from './components/templates/Sidebar';
-import HeaderTemplate from './components/templates/Header';
-import FooterTemplate from './components/templates/Footer';
-import LoginUser from './components/pages/LoginUser';
-import { isConnected } from './service/index';
-
-const { Content } = Layout;
+import { Route, Routes } from 'react-router';
+import DasboardPage from './components/pages/Dashboard';
+import ProtectedRoute, { ProtectedRouteProps } from './routes/ProtectedRoute';
+import { isConnected } from './service';
+import LoginUser from './components/pages/LoginUser/index';
+import RegisterUser from './components/pages/RegisterUser/index';
+import Register from './components/pages/Register';
+import { Toaster } from 'react-hot-toast';
 
 const App: FC = () => {
 
-  const exibeTelaLoginEstatico = !isConnected().status;
+  const defaultProtectedRouteProps: Omit<ProtectedRouteProps, 'outlet'> = {
+    isAuthenticated: isConnected().status,
+    authenticationPath: '/login',
+  };
   
   return (
     <>
-    {!!exibeTelaLoginEstatico &&
-    <>
-      {/* <RegisterUser></RegisterUser> */}
-      <LoginUser></LoginUser>
-    </> }
-    {!exibeTelaLoginEstatico && 
       <div className="App">
-        <Layout style={{ minHeight: '100vh' }}>
-          <SidebarTemplate></SidebarTemplate>
-          <Layout>
-            <HeaderTemplate></HeaderTemplate>
-            <Content className='mainContainer'>
-            </Content>
-            <FooterTemplate>Footer</FooterTemplate>
-          </Layout>
-        </Layout>
-      </div>
-    }
+      <Toaster position="top-right"  reverseOrder={false}/>
+        <Routes>
+          <Route path='/' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<DasboardPage />} />} />
+          <Route path='/cadastrar' element={<ProtectedRoute {...defaultProtectedRouteProps} outlet={<Register namePage={'Cadastrar Evento'} />} />} />
+          <Route path='/login' element={<LoginUser/>}></Route>
+          <Route path='/cadastrar-usuario' element={<RegisterUser/>}></Route>
+        </Routes>
+       </div>
     </>
   )
 }

@@ -5,12 +5,12 @@ import {
   BellOutlined,
   LogoutOutlined
 } from '@ant-design/icons';
-import ButtonAtom from '../../atoms/Button/index';
 import { Button, Card, List, Modal } from 'antd';
 import { useEffect } from 'react';
 import {getInvitesService} from '../../../service'
 import toast from 'react-hot-toast';
 import { setResponseInviteService } from '../../../service/index';
+import { useNavigate } from 'react-router';
 
 interface Header {
 
@@ -19,17 +19,34 @@ interface Header {
 const HeaderTemplate = ({ }: Header) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [invites, setInvites] = useState([]);
+  const [isModalOpenLogout, setIsModalOpenLogout] = useState(false);
+  const navigate = useNavigate()
 
   const showModal = () => {
     setIsModalOpen(true);
+  };
+
+  const showModalLogout = () => {
+    setIsModalOpenLogout(true);
   };
 
   const handleOk = () => {
     setIsModalOpen(false);
   };
 
+  const handleOkLogout = () => {
+    localStorage.removeItem('token')
+    toast.success("Você foi deslogado com sucesso, estamos te redirecionando ...")
+    setIsModalOpenLogout(false);
+    setTimeout(() => navigate('/login'), 2000)
+  };
+
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const handleCancelLogout = () => {
+    setIsModalOpenLogout(false);
   };
 
   const getInvites = async () => {
@@ -56,7 +73,7 @@ const HeaderTemplate = ({ }: Header) => {
 	}, []);
 
   return (
-    <Header className="navbar site-layout-background" style={{ padding: 0 }} >
+    <Header className="navbar site-layout-background" style={{ position: 'sticky', top: 0, zIndex: 1, width: '100%' }}  >
       <nav>
         <div className="container">
           <div className="perfil">
@@ -76,7 +93,10 @@ const HeaderTemplate = ({ }: Header) => {
                 )}
               />
               </Modal>
-            <ButtonAtom icon={<LogoutOutlined />} ></ButtonAtom>
+            <Button onClick={showModalLogout} icon={<LogoutOutlined />} ></Button>
+            <Modal title="Logout" open={isModalOpenLogout} onOk={handleOkLogout} onCancel={handleCancelLogout} okText="Sim"  cancelText="Não">
+              <h2>Você realmente deseja sair?</h2>
+            </Modal>
           </div>
         </div>
       </nav >
