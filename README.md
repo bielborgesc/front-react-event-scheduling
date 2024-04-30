@@ -68,3 +68,38 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+O projeto consiste em fazer um sistema web de calendário de eventos com backend e frontend.
+
+Será desenvolvido na arquitetura REST com as seguinte funcionalidades:
+
+* Cadastro de usuário;
+* Login para acesso ao sistema;
+* Adição de eventos;
+* Edição de eventos;
+* Remoção de eventos;
+* Listagem de eventos;
+
+Com as tecnologias para o backend:
+* NestJ para o desenvolvimento das funções
+* TypeORM para conexões com o banco de dados 
+* MySql como linguagem de banco de dados
+* Bcrypt para a criptografia de senhas
+* Passport JWT para a geração de tokens
+* RXJS para conexões assíncronas
+* TypeScript como linguagem de programação invés do JavaScript puro
+
+
+Os atributos necessários para o evento são:
+* Descrição;
+* Hora e data de início;
+* Hora e data de término;
+
+* Não será possivel sobrescrever eventos e caso ocorra, emitirá um alerta para o usuário;
+* Suporte a vários usuários;
+* Os eventos serão ligados ao usuário que os criou;
+Frontend renderizado no lado do cliente usando a biblioteca JS React;
+* Eventos com duração de mais de um dia;
+* Suporte a vários usuários, será implementado o convite a outros usuários para eventos, ou seja, o evento aparecerá no calendário do usuário convidado e o usuário convidado poderá responder se poderá participar ou não;
+* Aplicação responsiva, com o uso de Bootstrap e SCSS;
+* Se um evento for excluido, seus candidatos deverão ser notificados sobre o cancelamento do evento
