@@ -1,105 +1,54 @@
-# Getting Started with Create React App
+### :heavy_check_mark: FINISHED
+#### :green_book: [Interface] Event Scheduling
+# :date: Event Scheduling
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## :mag: Objective
+Event Scheduling is an event scheduler with invitation support. Through this application, it's possible to manage your own events consisting of: name, start date, and end date. Each user has their own events, but there's nothing stopping them from inviting other users to their events. The application supports inviting multiple users registered in the application. Remember that all invitations are created with a "pending" status, and the user you invited needs to accept this invitation.
 
-## Available Scripts
+## :computer: Development
+The project consists of a web-based event calendar system with [backend](https://github.com/bielborgesc/back-event-scheduling) and frontend.
+
+It will be developed in REST architecture with the following functionalities:
+
+- User registration;
+- Login for system access;
+- Addition of events;
+- Event editing;
+- Event removal;
+- Event listing;
+
+The necessary attributes for the event are:
+
+- Description;
+- Start date and time;
+- End date and time;
+- Events cannot be overwritten and if attempted, it will prompt a warning to the user;
+- Support for multiple users;
+- Events will be associated with the user who created them;
+- Frontend rendered on the client side using the React JS library;
+- Events lasting more than one day;
+- Responsive application, using Bootstrap and SCSS using the concept of [Atomic Design](https://medium.com/pretux/atomic-design-o-que-%C3%A9-como-surgiu-e-sua-import%C3%A2ncia-para-a-cria%C3%A7%C3%A3o-do-design-system-e3ac7b5aca2c);
+- If an event is deleted, its attendees should be notified about the event cancellation.
+
+## :arrow_forward: Run the code
 
 In the project directory, you can run:
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+[](https://github.com/bielborgesc/front-react-event-scheduling#npm-start)
 
-The page will reload when you make changes.\
+Runs the app in the development mode.  
+Open  [http://localhost:3000](http://localhost:3000/)  to view it in your browser.
+
+The page will reload when you make changes.  
 You may also see any lint errors in the console.
 
-### `npm test`
+## :heavy_check_mark: Concluding
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+The main objective of this application is to serve as an interface for the API found in the repository: [back-event-scheduling](https://github.com/bielborgesc/back-event-scheduling). This frontend interface is an alternative interface built in React. The main interface was built in Angular and can be found in this repository: [front-event-scheduling](https://github.com/bielborgesc/front-event-scheduling).
 
-### `npm run build`
+## :raising_hand_man: Developers
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-O projeto consiste em fazer um sistema web de calendário de eventos com backend e frontend.
-
-Será desenvolvido na arquitetura REST com as seguinte funcionalidades:
-
-* Cadastro de usuário;
-* Login para acesso ao sistema;
-* Adição de eventos;
-* Edição de eventos;
-* Remoção de eventos;
-* Listagem de eventos;
-
-Com as tecnologias para o backend:
-* NestJ para o desenvolvimento das funções
-* TypeORM para conexões com o banco de dados 
-* MySql como linguagem de banco de dados
-* Bcrypt para a criptografia de senhas
-* Passport JWT para a geração de tokens
-* RXJS para conexões assíncronas
-* TypeScript como linguagem de programação invés do JavaScript puro
-
-
-Os atributos necessários para o evento são:
-* Descrição;
-* Hora e data de início;
-* Hora e data de término;
-
-* Não será possivel sobrescrever eventos e caso ocorra, emitirá um alerta para o usuário;
-* Suporte a vários usuários;
-* Os eventos serão ligados ao usuário que os criou;
-Frontend renderizado no lado do cliente usando a biblioteca JS React;
-* Eventos com duração de mais de um dia;
-* Suporte a vários usuários, será implementado o convite a outros usuários para eventos, ou seja, o evento aparecerá no calendário do usuário convidado e o usuário convidado poderá responder se poderá participar ou não;
-* Aplicação responsiva, com o uso de Bootstrap e SCSS;
-* Se um evento for excluido, seus candidatos deverão ser notificados sobre o cancelamento do evento
+Gabriel Carvalho  
+Jackson de Almeida
